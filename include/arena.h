@@ -18,7 +18,8 @@ typedef enum {
   INT,
   FLOAT,
   DOUBLE,
-  UINT
+  UINT,
+  VEC2
 }Types;
 
 
@@ -73,33 +74,36 @@ size_t sizeof_types(Types type){
     {
     return sizeof(char);
     }
-    break;
-    
+       
       case INT:
     {
     return sizeof(int);
     }
-    break;
-    
+       
   case FLOAT:
     {
     return sizeof(float);
     }
-    break;
-    
-    case DOUBLE:
+   
+     case DOUBLE:
     {
     return sizeof(double);
     }
-    break;
+   
     
   case UINT:
     {
     return sizeof(unsigned int);
     }
-    break;
+   
   }
-  return -1;// indiacting not a valid type
+  case VEC2:
+    {
+      return sizeof(vec2);
+    }
+    default:{
+  return -1;
+   }// indiacting not a valid type
 }
 
 Region* alloc_region(size_t capacity, Types t) {
@@ -187,6 +191,7 @@ const char *type_to_string(Types t) {
         case FLOAT: return "FLOAT";
         case DOUBLE: return "DOUBLE";
         case UINT: return "UINT";
+        case VEC2:  return "VEC2";
         default: return "UNKNOWN";
     }
 }
@@ -233,6 +238,13 @@ void region_print(Region* region) {
             }
             break;
         }
+	   case VEC2: {
+            unsigned int *data = (unsigned int *)region->mem_region;
+            for (i = 0; i < region->count; i++) {
+                printf("  [%zu] = %u\n", i, data[i]);
+            }
+            break;
+
         default:
             printf("  Unknown data type.\n");
     }

@@ -1,0 +1,14 @@
+// api opengl , pmath, arena.h
+
+
+Todo:
+   -> add support for fix size regions and vec2 based regions. // Today
+   
+next:
+add premitive objets like rectangle , point , line ,circle
+
+
+Drawing:
+1) basic premitves to draw,
+2) threading
+3) batch rendering , 
