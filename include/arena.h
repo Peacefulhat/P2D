@@ -6,9 +6,7 @@
 #include<stddef.h>
 #include<assert.h>
 
-#ifdef PMATH
 #include"pmath.h"
-#endif
 
 #define A_ASSERT assert
 #define ARENA_REGION_CAPACITY 10 // no of nodes in arena
@@ -74,36 +72,38 @@ size_t sizeof_types(Types type){
     {
     return sizeof(char);
     }
-       
+    break;
+    
       case INT:
     {
     return sizeof(int);
     }
-       
+    break;
+    
   case FLOAT:
     {
     return sizeof(float);
     }
-   
-     case DOUBLE:
+    break;
+    
+    case DOUBLE:
     {
     return sizeof(double);
     }
-   
+    break;
     
   case UINT:
     {
     return sizeof(unsigned int);
     }
-   
-  }
+    break;
   case VEC2:
     {
       return sizeof(vec2);
     }
-    default:{
-  return -1;
-   }// indiacting not a valid type
+    break;
+  }
+  return -1;// indiacting not a valid type
 }
 
 Region* alloc_region(size_t capacity, Types t) {
@@ -191,7 +191,6 @@ const char *type_to_string(Types t) {
         case FLOAT: return "FLOAT";
         case DOUBLE: return "DOUBLE";
         case UINT: return "UINT";
-        case VEC2:  return "VEC2";
         default: return "UNKNOWN";
     }
 }
@@ -238,13 +237,15 @@ void region_print(Region* region) {
             }
             break;
         }
-	   case VEC2: {
-            unsigned int *data = (unsigned int *)region->mem_region;
+	  
+        case VEC2: {
+            vec2 *data = (vec2 *)region->mem_region;
             for (i = 0; i < region->count; i++) {
-                printf("  [%zu] = %u\n", i, data[i]);
+	      printf("  [%zu] = {%f,%f}\n", i, data[i].x,data[i].y);
             }
             break;
-
+        }
+	  
         default:
             printf("  Unknown data type.\n");
     }
