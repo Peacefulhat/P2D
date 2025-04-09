@@ -1,10 +1,21 @@
 // api opengl , pmath, arena.h
 
 
-Todo:
-   -> add support for fix size regions and vec2 based regions. // Today
-   
-next:
+
+// Today
+
+// finish region allcator. and fix issues.
+
+Arena of shape:
+-> same kind of shape.
+-> every region repersenting different entity of same shape.
+
+Arean*a, fixed size regions
+
+Arena containing a different shapes:
+-> every region may contain different kind of shape data.
+
+TODO:
 add premitive objets like rectangle , point , line ,circle
 
 

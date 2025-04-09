@@ -42,6 +42,7 @@ Arena* alloc_arena();
 size_t sizeof_types(Types type);
 Region* alloc_region(size_t capacity,Types t);
 void append_data(Arena *arr, Types t, void *data, size_t count);
+void append_region(Arena*arena, Region*region);
 static Region *find_compatible_region(Arena *arr, Types t, size_t count);
 static Region *create_and_append_region(Arena *arr, Types t, size_t count);
 void region_free(Region* region);
@@ -105,6 +106,7 @@ size_t sizeof_types(Types type){
   }
   return -1;// indiacting not a valid type
 }
+// treating capacity as total count of verties.count and capacity are equal kind of
 
 Region* alloc_region(size_t capacity, Types t) {
     Region* region_block = malloc(sizeof(Region));
@@ -132,7 +134,7 @@ static Region *find_compatible_region(Arena *arr, Types t, size_t count) {
 }
 
 static Region *create_and_append_region(Arena *arr, Types t, size_t count) {
-    size_t cap = 4 * count;
+    size_t cap = count;
     Region *new_region = alloc_region(cap, t);
     A_ASSERT(new_region != NULL);
 
@@ -172,6 +174,13 @@ void region_free(Region* region){
 
 void arena_free(Arena* arena) {
   A_ASSERT(arena != NULL);
+  
+  
+  if(arena->begin==NULL){
+    free(arena);
+    return ;
+  }
+  
   Region* temp = arena->begin;
   A_ASSERT(temp!=NULL);
 
@@ -191,6 +200,7 @@ const char *type_to_string(Types t) {
         case FLOAT: return "FLOAT";
         case DOUBLE: return "DOUBLE";
         case UINT: return "UINT";
+        case VEC2: return "VEC2";
         default: return "UNKNOWN";
     }
 }
@@ -261,7 +271,19 @@ void arena_print(Arena* arena) {
         temp = temp->next;
     }
 }
-
+void append_region(Arena*arena, Region*region){
+  A_ASSERT(arena!=NULL);
+  A_ASSERT(region!=NULL);
+  if(arena->begin==NULL){
+    arena->begin=region;
+    arena->end=region;
+    arena->region_count++;
+    return;
+   }
+  arena->end->next=region;
+  arena->end=region;
+  
+}
 #endif // ARENA_IMP
 
 
