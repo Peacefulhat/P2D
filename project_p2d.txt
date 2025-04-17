@@ -1,10 +1,9 @@
 // api opengl , pmath, arena.h
 
-
-
-// Today
+ Todo:
 
 // finish region allcator. and fix issues.
+
 
 Arena of shape:
 -> same kind of shape.
